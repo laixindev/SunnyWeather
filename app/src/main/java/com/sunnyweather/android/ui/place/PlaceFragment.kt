@@ -31,7 +31,7 @@ class PlaceFragment : Fragment() {
         if (activity is MainActivity && viewModel.isPlaceSaved()) {
             val place = viewModel.getSavedPlace()
             val intent = Intent(context, WeatherActivity::class.java).apply {
-                putExtra("location_lng", place.location.lng)
+                putExtra("location_lng", place.Location.lng)
                 putExtra("location_lat", place.location.lat)
                 putExtra("place_name", place.name)
             }
@@ -54,7 +54,7 @@ class PlaceFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
         }
-        viewModel.placeLiveData.observe(this, Observer{ result ->
+        viewModel.placeLiveData.observe(viewLifecycleOwner, Observer{ result ->
             val places = result.getOrNull()
             if (places != null) {
                 recyclerView.visibility = View.VISIBLE
@@ -63,8 +63,8 @@ class PlaceFragment : Fragment() {
                 viewModel.placeList.addAll(places)
                 adapter.notifyDataSetChanged()
             } else {
-                Toast.makeText(activity, "未搜索到任何地点", Toast.LENGTH_SHORT).show()
-                        result.exceptionOrNull()?.printStackTrace()
+                Toast.makeText(activity, "未能查询到任何地点", Toast.LENGTH_SHORT).show()
+                result.exceptionOrNull()?.printStackTrace()
             }
         })
     }
