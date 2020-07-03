@@ -15,11 +15,19 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    signingConfigs{
+        config{
+            storeFile file('C:/Users/laixin/laixin.jks')
+            storePassword'1234567'
+            keyAlias = 'laixindev'
+            keyPassword'1234567'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
